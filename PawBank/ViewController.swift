@@ -144,14 +144,14 @@ extension ViewController: KolodaViewDataSource {
         titleView.textAlignment = .center
         titleView.text = PetData.pets[index].name;
         titleView.numberOfLines = 0;
-        titleView.font = UIFont(name: "Avenir Black", size: 30)
+        titleView.font = UIFont(name: "Avenir Black", size: 25)
         titleView.textColor = UIColor(hexString: "#884D45");
 
         // Brand
         let brandView = UILabel(frame: CGRect(x: 0, y: 179 - 50, width: self.view.frame.width, height: 40))
         brandView.textAlignment = .center
         brandView.text = "Best Friends";
-        brandView.font = UIFont(name: "Avenir Black", size: 30)
+        brandView.font = UIFont(name: "Avenir Black", size: 20)
         brandView.textColor = UIColor(hexString: "#884D45");
         
         // Paw Icon
@@ -163,7 +163,7 @@ extension ViewController: KolodaViewDataSource {
         imageView.image = PetData.petPics[index % PetData.petPics.count];
 
         // Bio
-        let bioView = UILabel(frame: CGRect(x: 29 , y: 0, width: self.view.frame.width - (29*2), height: 40))
+        let bioView = UILabel(frame: CGRect(x: 29 , y: 0, width: self.view.frame.width - (29*2), height: 75))
         bioView.numberOfLines = 0;
         bioView.font = UIFont(name: "Avenir Black", size: 12)
         bioView.text = PetData.pets[index].bio;
