@@ -9,6 +9,7 @@
 import UIKit
 struct PetData {
     static var pets: [Pet] = []
+    static var petPics: [UIImage] = [#imageLiteral(resourceName: "collie1"), #imageLiteral(resourceName: "collie2"), #imageLiteral(resourceName: "collie3"), #imageLiteral(resourceName: "collie4"), #imageLiteral(resourceName: "GermanSheppardPuppy"), #imageLiteral(resourceName: "pug1"), #imageLiteral(resourceName: "pug2"), #imageLiteral(resourceName: "chihuahua1")];
 }
 struct UserData {
     static var userDictionary = [String : Any]()
@@ -121,7 +122,7 @@ class LoginViewController: UIViewController {
         userTask.resume()
         
         
-        // Do any additional setup after loading the view.
+        // Do any additional setup after loading the view.  
 
 
     }

@@ -44,14 +44,25 @@ extension UIColor {
         self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
     }
 }
+var donateButton = UIButton();
 
 extension ViewController: KolodaViewDataSource {
     
     func kolodaNumberOfCards(_ koloda:KolodaView) -> Int {
         return PetData.pets.count
     }
-
+    
+    func adoptionClicked() {
+        UIApplication.shared.openURL(NSURL(string: "http://bestfriends.org/adopt/adopt-our-sanctuary")! as URL)
+    }
+    
+    func toggleOrange() {
+        donateButton.setImage(#imageLiteral(resourceName: "orangeDonateAfter"), for: UIControlState.normal)
+    }
+    
     func donationClicked() {
+        donateButton.setImage(#imageLiteral(resourceName: "unclickedDonateButton"), for: UIControlState.normal)
+
         print("in donation clicked w/ userdata dict size of %d" , UserData.userDictionary.count )
         if (UserData.userDictionary.count != 0) {
             // display an alert
@@ -63,7 +74,8 @@ extension ViewController: KolodaViewDataSource {
                 textField.text = "0"
                 textField.keyboardType = .numberPad
             }
-
+            alert.addAction(UIAlertAction(title: "CANCEL", style: .default, handler: { [weak alert] (_) in
+            }));
             // 3. Grab the value from the text field, and print it when the user clicks OK.
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
                 let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
@@ -109,11 +121,6 @@ extension ViewController: KolodaViewDataSource {
             }))
             self.present(alert, animated: true, completion: nil)
 
-                
-                
-        
-            
-            
         }
     }
 
@@ -136,9 +143,16 @@ extension ViewController: KolodaViewDataSource {
         let titleView = UILabel(frame: CGRect(x: 0, y: 40, width: self.view.frame.width, height: 40))
         titleView.textAlignment = .center
         titleView.text = PetData.pets[index].name;
+        titleView.numberOfLines = 0;
         titleView.font = UIFont(name: "Avenir Black", size: 30)
         titleView.textColor = UIColor(hexString: "#884D45");
 
+        // Brand
+        let brandView = UILabel(frame: CGRect(x: 0, y: 179 - 50, width: self.view.frame.width, height: 40))
+        brandView.textAlignment = .center
+        brandView.text = "Best Friends";
+        brandView.font = UIFont(name: "Avenir Black", size: 30)
+        brandView.textColor = UIColor(hexString: "#884D45");
         
         // Paw Icon
         let pawView = UIImageView(frame: CGRect(x: width - 44 - 29, y: 179 - 50, width: 44, height: 44))
@@ -146,22 +160,27 @@ extension ViewController: KolodaViewDataSource {
 
         // Image
         let imageView = UIImageView(frame: CGRect(x: 29, y: 179, width: self.view.frame.width - (29*2), height: self.view.frame.width - (29*2)))
-        imageView.image = #imageLiteral(resourceName: "GermanSheppardPuppy")
-        
+        imageView.image = PetData.petPics[index % PetData.petPics.count];
+
         // Bio
-        let bioView = UILabel(frame: CGRect(x: 29 , y: 0, width: self.view.frame.width - (29*2), height: 29))
+        let bioView = UILabel(frame: CGRect(x: 29 , y: 0, width: self.view.frame.width - (29*2), height: 40))
         bioView.numberOfLines = 0;
+        bioView.font = UIFont(name: "Avenir Black", size: 12)
         bioView.text = PetData.pets[index].bio;
         
         // buttons
-        let donateButton = UIButton(frame: CGRect(x: 29 , y: height * 0.125, width: 114, height: 29))
-        donateButton.setImage(#imageLiteral(resourceName: "unclickedDonateButton"), for: UIControlState.normal)
+         donateButton = UIButton(frame: CGRect(x: 29 , y: height * 0.1, width: 114, height: 29))
+        donateButton.setImage(#imageLiteral(resourceName: "orangeDonateBefore"), for: UIControlState.normal)
+        donateButton.addTarget(self, action: #selector(self.toggleOrange), for: UIControlEvents.touchDown);
+       // donateButton.addTarget(self, action: {(donateButton) in donateButton.setImage(#imageLiteral(resourceName: "orangeDonateAfter"))}, for: UIControlEvents.touchDown)
+        
         currentIndex.curr = koloda.currentCardIndex;
         donateButton.addTarget(self, action:#selector(self.donationClicked), for: .touchUpInside)
         
         
-        let adoptionButton = UIButton(frame: CGRect(x:width * 0.75 - width * 0.125 , y: height * 0.125, width: 114, height: 29))
+        let adoptionButton = UIButton(frame: CGRect(x:width * 0.75 - width * 0.125 , y: height * 0.1, width: 114, height: 29))
         adoptionButton.setImage(#imageLiteral(resourceName: "adopt button unclicked"), for: UIControlState.normal)
+        adoptionButton.addTarget(self, action:#selector(self.adoptionClicked), for: .touchUpInside)
 
         
         // adding to Label View
@@ -175,8 +194,7 @@ extension ViewController: KolodaViewDataSource {
         myNewView.addSubview(titleView);
         myNewView.addSubview(pawView);
         myNewView.addSubview(imageView);
-
-        
+        myNewView.addSubview(brandView)
         myNewView.addSubview(labelView);
        // myNewView.addSubview(label)
         return myNewView

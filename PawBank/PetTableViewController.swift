@@ -47,6 +47,9 @@ class PetTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Pet", for: indexPath)
         cell.textLabel?.text = PetData.pets[indexPath.row].name;
+        var image : UIImage = PetData.petPics[indexPath.row];
+        //println("The loaded image: \(image)")
+        cell.imageView?.image = image
         // TODO: update here with pet photo!
         return cell
     }
