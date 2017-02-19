@@ -139,6 +139,10 @@ extension ViewController: KolodaViewDataSource {
         let buffer = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30))
         buffer.backgroundColor = UIColor(hexString: "#4CA063");
 
+        // Gesture Icon
+        let gestureView = UIImageView(frame: CGRect(x: 50, y: 100 , width: 37, height: 55))
+        gestureView.image = #imageLiteral(resourceName: "gestureSwipe")
+        
         // Name
         let titleView = UILabel(frame: CGRect(x: 0, y: 40, width: self.view.frame.width, height: 40))
         titleView.textAlignment = .center
@@ -189,7 +193,9 @@ extension ViewController: KolodaViewDataSource {
         labelView.addSubview(bioView)
         labelView.addSubview(adoptionButton)
         labelView.addSubview(donateButton);
- 
+        if (index == 0) {
+            myNewView.addSubview(gestureView)
+        }
         myNewView.addSubview(buffer);
         myNewView.addSubview(titleView);
         myNewView.addSubview(pawView);
